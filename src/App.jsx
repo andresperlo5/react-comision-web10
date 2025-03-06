@@ -7,8 +7,8 @@ import ContactPage from './pages/ContactPage'
 import RegisterPage from './pages/RegisterPage'
 import LoginPage from './pages/LoginPage'
 import ProductDetail from './pages/ProductDetail'
-
-
+import ErrorPage from './pages/ErrorPage'
+import './App.css'
 
 //fragments <> </>
 const App = () => {
@@ -17,12 +17,13 @@ const App = () => {
       <Router>
         <NavbarC />
         <Routes>
-          <Route path='/productDetail' element={<ProductDetail />} />
+          <Route path='/productDetail/:id' element={<ProductDetail />} />
           <Route path='/register' element={<RegisterPage />} />
           <Route path='/contact' element={<ContactPage />} />
           <Route path='/aboutUs' element={<AboutUs />} />
           <Route path='/login' element={<LoginPage />} />
           <Route path='/' element={<HomePage />} />
+          <Route path='*' element={<ErrorPage />} />
         </Routes>
         <FooterC />
       </Router>
