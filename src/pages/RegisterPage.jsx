@@ -1,8 +1,10 @@
-import React from 'react'
+import FormC from '../components/form/FormC'
 
 const RegisterPage = () => {
   return (
-    <div>RegisterPage</div>
+    <>
+      <FormC idPage='register' />
+    </>
   )
 }
 

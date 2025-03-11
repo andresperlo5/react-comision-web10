@@ -9,6 +9,8 @@ import LoginPage from './pages/LoginPage'
 import ProductDetail from './pages/ProductDetail'
 import ErrorPage from './pages/ErrorPage'
 import './App.css'
+import AdminPage from './pages/AdminPage'
+import UserPage from './pages/UserPage'
 
 //fragments <> </>
 const App = () => {
@@ -18,6 +20,8 @@ const App = () => {
         <NavbarC />
         <Routes>
           <Route path='/productDetail/:id' element={<ProductDetail />} />
+          <Route path='/admin' element={<AdminPage />} />
+          <Route path='/user' element={<UserPage />} />
           <Route path='/register' element={<RegisterPage />} />
           <Route path='/contact' element={<ContactPage />} />
           <Route path='/aboutUs' element={<AboutUs />} />

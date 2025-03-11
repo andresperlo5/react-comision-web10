@@ -1,8 +1,11 @@
 import React from 'react'
+import FormC from '../components/form/FormC'
 
 const LoginPage = () => {
   return (
-    <div>LoginPage</div>
+    <>
+      <FormC idPage='login' />
+    </>
   )
 }
 
