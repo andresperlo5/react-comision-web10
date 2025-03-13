@@ -11,6 +11,9 @@ import ErrorPage from './pages/ErrorPage'
 import './App.css'
 import AdminPage from './pages/AdminPage'
 import UserPage from './pages/UserPage'
+import AdminUsersPage from './pages/AdminUsersPage'
+import AdminProductsPage from './pages/AdminProductsPage'
+import AdminCreateUpdateProduct from './pages/AdminCreateUpdateProduct'
 
 //fragments <> </>
 const App = () => {
@@ -21,6 +24,9 @@ const App = () => {
         <Routes>
           <Route path='/productDetail/:id' element={<ProductDetail />} />
           <Route path='/admin' element={<AdminPage />} />
+          <Route path='/admin/users' element={<AdminUsersPage />} />
+          <Route path='/admin/products' element={<AdminProductsPage />} />
+          <Route path='/admin/products/createUpdate' element={<AdminCreateUpdateProduct />} />
           <Route path='/user' element={<UserPage />} />
           <Route path='/register' element={<RegisterPage />} />
           <Route path='/contact' element={<ContactPage />} />

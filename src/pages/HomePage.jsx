@@ -12,10 +12,21 @@ const HomePage = () => {
 
   const obtenerProductos = async () => {
     try {
-      const productosApi = await fetch('https://fakestoreapi.com/products')
-      const data = await productosApi.json()
-      localStorage.setItem('productos', JSON.stringify(data))
-      setProductos(data)
+
+      const productoLs = JSON.parse(localStorage.getItem('productos')) || []
+
+      if (!productoLs.length) {
+        const productosApi = await fetch('https://fakestoreapi.com/products')
+        const data = await productosApi.json()
+        data.forEach(element => {
+          productoLs.push({ ...element, status: 'enable' })
+        });
+        localStorage.setItem('productos', JSON.stringify(productoLs))
+        setProductos(productoLs)
+      } else {
+        setProductos(productoLs)
+      }
+
     } catch (error) {
       console.log(error)
     }
@@ -32,7 +43,8 @@ const HomePage = () => {
         <Row>
           {
             productos.map((producto) =>
-              <Col sm='12' md='6' lg='4' key={producto.id} className='my-3'>
+              producto.status !== 'disabled' &&
+              < Col sm='12' md='6' lg='4' key={producto.id} className='my-3' >
                 <CardC urlImage={producto.image} alt={producto.description} titulo={producto.title} descripcion={producto.description} precio={producto.price} idProducto={producto.id} />
               </Col>
             )
@@ -45,7 +57,7 @@ const HomePage = () => {
             <CardC urlImage='https://st2.depositphotos.com/4211709/7708/i/450/depositphotos_77085751-stock-photo-flower.jpg' alt='imagen3' />
           </Col> */}
         </Row>
-      </Container>
+      </Container >
     </>
   )
 }
