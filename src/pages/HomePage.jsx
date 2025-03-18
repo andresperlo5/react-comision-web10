@@ -2,9 +2,12 @@ import { Col, Container, Row } from 'react-bootstrap'
 import CarouselC from '../components/carousel/CarouselC'
 import CardC from '../components/card/CardC'
 import { useEffect, useState } from 'react'
+import { useApiFakeStore } from '../helpers/useApi'
+import { useChangeTitle } from '../helpers/useChangeTitlePage'
 /* import { use - hook = funcion } from 'react' */
 
 const HomePage = () => {
+  useChangeTitle('home')
   // const [estado, funcion] = useState([])
   const [productos, setProductos] = useState([])
   /*   const [usuarios, setUsuarios] = useState([])
@@ -16,8 +19,7 @@ const HomePage = () => {
       const productoLs = JSON.parse(localStorage.getItem('productos')) || []
 
       if (!productoLs.length) {
-        const productosApi = await fetch('https://fakestoreapi.com/products')
-        const data = await productosApi.json()
+        const data = await useApiFakeStore()
         data.forEach(element => {
           productoLs.push({ ...element, status: 'enable' })
         });

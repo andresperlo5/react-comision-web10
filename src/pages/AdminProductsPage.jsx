@@ -6,6 +6,7 @@ import { Link } from "react-router"
 
 const AdminProductsPage = () => {
   const [productos, setProductos] = useState([])
+  const usuarioLog = JSON.parse(sessionStorage.getItem('usuarioLogeado'))
 
   const obtenerProductos = () => {
     const productosLs = JSON.parse(localStorage.getItem('productos'))
@@ -18,12 +19,15 @@ const AdminProductsPage = () => {
 
   return (
     <>
-      <Container className="my-5">
-        <div className="d-flex justify-content-end mb-3">
-          <Link className="btn btn-primary" to={'/admin/products/createUpdate'}>Agregar Producto</Link>
-        </div>
-        <TableC array={productos} idPage='products' funcionReseteador={obtenerProductos} />
-      </Container>
+      {
+        usuarioLog &&
+        <Container className="my-5">
+          <div className="d-flex justify-content-end mb-3">
+            <Link className="btn btn-primary" to={usuarioLog ? '/admin/products/createUpdate' : '#'}>Agregar Producto</Link>
+          </div>
+          <TableC array={productos} idPage='products' funcionReseteador={obtenerProductos} />
+        </Container>
+      }
     </>
   )
 }

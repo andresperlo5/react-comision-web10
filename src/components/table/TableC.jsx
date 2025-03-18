@@ -1,12 +1,27 @@
 
 import { Button } from 'react-bootstrap';
 import Table from 'react-bootstrap/Table';
-import { Link } from 'react-router';
+import { Link, useNavigate } from 'react-router';
 import Swal from 'sweetalert2';
 
 const TableC = ({ array, idPage, funcionReseteador }) => {
+  const navigate = useNavigate()
 
   const borrarProducto = (idProducto) => {
+    const usuarioLog = JSON.parse(sessionStorage.getItem('usuarioLogeado'))
+
+    if (!usuarioLog) {
+      Swal.fire({
+        title: "Debes iniciar sesion!",
+        icon: "info"
+      });
+
+      setTimeout(() => {
+        navigate('/login')
+      }, 500);
+      return
+    }
+
     Swal.fire({
       title: "Estas seguro de que quieres eliminar este producto?",
       icon: "warning",
@@ -32,6 +47,21 @@ const TableC = ({ array, idPage, funcionReseteador }) => {
   }
 
   const deshabilitarOhabilitarProducto = (idProducto) => {
+    const usuarioLog = JSON.parse(sessionStorage.getItem('usuarioLogeado'))
+
+    if (!usuarioLog) {
+      Swal.fire({
+        title: "Debes iniciar sesion!",
+        icon: "info"
+      });
+
+      setTimeout(() => {
+        navigate('/login')
+      }, 500);
+      return
+    }
+
+
     const producto = array.find((producto) => producto.id === idProducto)
 
     Swal.fire({
@@ -103,7 +133,7 @@ const TableC = ({ array, idPage, funcionReseteador }) => {
                 <td>
                   <Button variant='danger' onClick={() => borrarProducto(element.id)}>Eliminar</Button>
                   <Button className='mx-2' variant={element.status === 'enable' ? 'warning' : 'info'} onClick={() => deshabilitarOhabilitarProducto(element.id)}>{element.status === 'enable' ? 'Deshabilitar' : 'Habilitar'}</Button>
-                  <Link to={`/admin/products/createUpdate?id=${element.id}`} className='btn btn-success'>Editar</Link>
+                  <Link to={JSON.parse(sessionStorage.getItem('usuarioLogeado')) ? `/admin/products/createUpdate?id=${element.id}` : '#'} className='btn btn-success'>Editar</Link>
                 </td>
               </tr>
               :

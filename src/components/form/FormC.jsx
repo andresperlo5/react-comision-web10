@@ -55,7 +55,7 @@ const FormC = ({ idPage }) => {
           emailUsuario: email,
           contrasenia,
           tyc: check,
-          rol: 'admin',
+          rol: 'usuario',
           login: false,
           status: 'enable'
         }

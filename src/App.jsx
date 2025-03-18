@@ -8,12 +8,14 @@ import RegisterPage from './pages/RegisterPage'
 import LoginPage from './pages/LoginPage'
 import ProductDetail from './pages/ProductDetail'
 import ErrorPage from './pages/ErrorPage'
-import './App.css'
 import AdminPage from './pages/AdminPage'
 import UserPage from './pages/UserPage'
 import AdminUsersPage from './pages/AdminUsersPage'
 import AdminProductsPage from './pages/AdminProductsPage'
 import AdminCreateUpdateProduct from './pages/AdminCreateUpdateProduct'
+import UserCartPage from './pages/UserCartPage'
+import PrivateRoute from './components/privateroute/PrivateRoute'
+import './App.css'
 
 //fragments <> </>
 const App = () => {
@@ -22,12 +24,39 @@ const App = () => {
       <Router>
         <NavbarC />
         <Routes>
+          <Route path='/admin' element={
+            <PrivateRoute rol='admin'>
+              <AdminPage />
+            </PrivateRoute>
+          } />
+          <Route path='/admin/users' element={
+            <PrivateRoute>
+              <AdminUsersPage rol='admin' />
+            </PrivateRoute>
+          } />
+          <Route path='/admin/products' element={
+            <PrivateRoute rol='admin'>
+              <AdminProductsPage />
+            </PrivateRoute>
+          } />
+          <Route path='/admin/products/createUpdate' element={
+            <PrivateRoute rol='admin'>
+              <AdminCreateUpdateProduct />
+            </PrivateRoute>
+          } />
+          <Route path='/user/cart' element={
+            <PrivateRoute rol='usuario'>
+              <UserCartPage />
+            </PrivateRoute>
+          } />
+          <Route path='/user' element={
+            <PrivateRoute rol='usuario'>
+              <UserPage />
+            </PrivateRoute>
+
+          } />
+
           <Route path='/productDetail/:id' element={<ProductDetail />} />
-          <Route path='/admin' element={<AdminPage />} />
-          <Route path='/admin/users' element={<AdminUsersPage />} />
-          <Route path='/admin/products' element={<AdminProductsPage />} />
-          <Route path='/admin/products/createUpdate' element={<AdminCreateUpdateProduct />} />
-          <Route path='/user' element={<UserPage />} />
           <Route path='/register' element={<RegisterPage />} />
           <Route path='/contact' element={<ContactPage />} />
           <Route path='/aboutUs' element={<AboutUs />} />
