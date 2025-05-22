@@ -4,6 +4,7 @@ import CardC from '../components/card/CardC'
 import { useEffect, useState } from 'react'
 import { useApiFakeStore } from '../helpers/useApi'
 import { useChangeTitle } from '../helpers/useChangeTitlePage'
+import clientAxios from '../helpers/axios.config.helpers'
 /* import { use - hook = funcion } from 'react' */
 
 const HomePage = () => {
@@ -16,18 +17,27 @@ const HomePage = () => {
   const obtenerProductos = async () => {
     try {
 
-      const productoLs = JSON.parse(localStorage.getItem('productos')) || []
+      const res = await clientAxios.get("/productos")
+      console.log(res)
+      setProductos(res.data.productos)
 
-      if (!productoLs.length) {
-        const data = await useApiFakeStore()
-        data.forEach(element => {
-          productoLs.push({ ...element, status: 'enable' })
-        });
-        localStorage.setItem('productos', JSON.stringify(productoLs))
-        setProductos(productoLs)
-      } else {
-        setProductos(productoLs)
-      }
+      /*   const productosBD = await fetch("http://localhost:3001/api/productos")
+        const res = await productosBD.json()
+        setProductos(res.productos)
+        console.log(res)
+   */
+      /*   const productoLs = JSON.parse(localStorage.getItem('productos')) || []
+  
+        if (!productoLs.length) {
+          const data = await useApiFakeStore()
+          data.forEach(element => {
+            productoLs.push({ ...element, status: 'enable' })
+          });
+          localStorage.setItem('productos', JSON.stringify(productoLs))
+          setProductos(productoLs)
+        } else {
+          setProductos(productoLs)
+        } */
 
     } catch (error) {
       console.log(error)
@@ -46,8 +56,8 @@ const HomePage = () => {
           {
             productos.map((producto) =>
               producto.status !== 'disabled' &&
-              < Col sm='12' md='6' lg='4' key={producto.id} className='my-3' >
-                <CardC urlImage={producto.image} alt={producto.description} titulo={producto.title} descripcion={producto.description} precio={producto.price} idProducto={producto.id} />
+              < Col sm='12' md='6' lg='4' key={producto._id} className='my-3' >
+                <CardC urlImage={producto.imagen} alt={producto.descripcion} titulo={producto.nombre} descripcion={producto.description} precio={producto.precio} idProducto={producto._id} />
               </Col>
             )
           }

@@ -4,15 +4,17 @@ import Navbar from 'react-bootstrap/Navbar';
 import { NavLink, useNavigate } from 'react-router'
 
 const NavbarC = () => {
-  const usuarioLog = JSON.parse(sessionStorage.getItem('usuarioLogeado'))
+  const usuarioLog = JSON.parse(sessionStorage.getItem('token'))
+  const usuarioRolLog = JSON.parse(sessionStorage.getItem('rol'))
   const navigate = useNavigate()
 
   const logoutUser = () => {
-    const usuariosLs = JSON.parse(localStorage.getItem('usuarios')) || []
-    const usuario = usuariosLs.find((user) => user.id === usuarioLog.id)
-    usuario.login = false
-    localStorage.setItem('usuarios', JSON.stringify(usuariosLs))
-    sessionStorage.removeItem('usuarioLogeado')
+    /*  const usuariosLs = JSON.parse(localStorage.getItem('usuarios')) || []
+     const usuario = usuariosLs.find((user) => user.id === usuarioLog.id)
+     usuario.login = false
+     localStorage.setItem('usuarios', JSON.stringify(usuariosLs)) */
+    sessionStorage.removeItem('token')
+    sessionStorage.removeItem('rol')
 
     setTimeout(() => {
       navigate('/')
@@ -23,13 +25,13 @@ const NavbarC = () => {
     <>
       <Navbar expand="lg" className="bg-body-tertiary">
         <Container fluid>
-          <NavLink to={usuarioLog && usuarioLog.rol === 'usuario' ? '/user' : usuarioLog && usuarioLog.rol === 'admin' ? '/admin' : '/'}>
+          <NavLink to={usuarioLog && usuarioRolLog === 'usuario' ? '/user' : usuarioLog && usuarioRolLog === 'admin' ? '/admin' : '/'}>
             <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTg0h_3hUDRAZSEEaU3NE5UKfbWfA7-ep99Aw&s" alt="logo" width='150' />
           </NavLink>
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
           <Navbar.Collapse id="basic-navbar-nav">
             {
-              usuarioLog && usuarioLog.rol === 'usuario' ?
+              usuarioLog && usuarioRolLog === 'usuario' ?
                 <Nav className="ms-auto">
                   <NavLink className='nav-link' to="/user">Inicio</NavLink>
                   <NavLink className='nav-link' to="/user/cart">Carrito</NavLink>
@@ -37,7 +39,7 @@ const NavbarC = () => {
                   <NavLink className='nav-link' to="/user/galery">Galeria</NavLink>
                 </Nav>
                 :
-                usuarioLog && usuarioLog.rol === 'admin' ?
+                usuarioLog && usuarioRolLog === 'admin' ?
                   <Nav className="ms-auto">
                     <NavLink className='nav-link' to="/admin">Inicio</NavLink>
                     <NavLink className='nav-link' to="/admin/users">Panel Usuarios</NavLink>

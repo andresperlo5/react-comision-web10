@@ -8,7 +8,7 @@ const TableC = ({ array, idPage, funcionReseteador }) => {
   const navigate = useNavigate()
 
   const borrarProducto = (idProducto) => {
-    const usuarioLog = JSON.parse(sessionStorage.getItem('usuarioLogeado'))
+    const usuarioLog = JSON.parse(sessionStorage.getItem('token'))
 
     if (!usuarioLog) {
       Swal.fire({
@@ -47,7 +47,7 @@ const TableC = ({ array, idPage, funcionReseteador }) => {
   }
 
   const deshabilitarOhabilitarProducto = (idProducto) => {
-    const usuarioLog = JSON.parse(sessionStorage.getItem('usuarioLogeado'))
+    const usuarioLog = JSON.parse(sessionStorage.getItem('token'))
 
     if (!usuarioLog) {
       Swal.fire({
@@ -122,13 +122,13 @@ const TableC = ({ array, idPage, funcionReseteador }) => {
           array.map((element, i) =>
             idPage === 'products'
               ?
-              <tr key={element.id}>
+              <tr key={element._id}>
                 <td>{i + 1}</td>
-                <td className='w-25'>{element.title}</td>
-                <td className='w-25'>{element.description}</td>
-                <td className='text-center'>${element.price}</td>
+                <td className='w-25'>{element.nombre}</td>
+                <td className='w-25'>{element.descripcion}</td>
+                <td className='text-center'>${element.precio}</td>
                 <td>
-                  <img src={element.image} alt={element.description} width={50} />
+                  <img src={element.imagen.includes("public") ? `http://localhost:3001/${element.imagen}` : element.imagen} alt={element.description} width={50} />
                 </td>
                 <td>
                   <Button variant='danger' onClick={() => borrarProducto(element.id)}>Eliminar</Button>
@@ -137,7 +137,7 @@ const TableC = ({ array, idPage, funcionReseteador }) => {
                 </td>
               </tr>
               :
-              <tr key={element.id}>
+              <tr key={element._id}>
                 <td>{i + 1}</td>
                 <td>{element.nombreUsuario}</td>
                 <td className='w-25'>{element.emailUsuario}</td>

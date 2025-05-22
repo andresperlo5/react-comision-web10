@@ -2,14 +2,17 @@ import { Container } from "react-bootstrap"
 import TableC from "../components/table/TableC"
 import { useEffect, useState } from "react"
 import { Link } from "react-router"
+import clientAxios from "../helpers/axios.config.helpers"
 
 const AdminUsersPage = () => {
   const [usuarios, setUsuarios] = useState([])
-  const usuarioLog = JSON.parse(sessionStorage.getItem('usuarioLogeado'))
+  const usuarioLog = JSON.parse(sessionStorage.getItem('token'))
 
-  const obtenerUsuarios = () => {
-    const usuariosLs = JSON.parse(localStorage.getItem('usuarios'))
-    setUsuarios(usuariosLs)
+  const obtenerUsuarios = async () => {
+    const res = await clientAxios.get("/usuarios")
+    setUsuarios(res.data.usuarios)
+    /* const usuariosLs = JSON.parse(localStorage.getItem('usuarios'))
+    setUsuarios(usuariosLs) */
   }
 
   useEffect(() => {

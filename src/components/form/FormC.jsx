@@ -5,6 +5,8 @@ import './FormC.css'
 import { useState } from 'react';
 import Swal from 'sweetalert2';
 import { useNavigate } from 'react-router';
+import axios from 'axios';
+import clientAxios, { configHeaders } from '../../helpers/axios.config.helpers';
 
 const FormC = ({ idPage }) => {
 
@@ -34,7 +36,7 @@ const FormC = ({ idPage }) => {
   }
 
 
-  const registroUsuario = (ev) => {
+  const registroUsuario = async (ev) => {
     ev.preventDefault()
     console.log(registro)
     const { usuario, email, contrasenia, repContrasenia, check } = registro
@@ -47,40 +49,95 @@ const FormC = ({ idPage }) => {
 
     if (usuario && email && contrasenia && repContrasenia && check) {
       if (contrasenia === repContrasenia) {
-        const usuariosLs = JSON.parse(localStorage.getItem('usuarios')) || []
-
-        const nuevoUsuario = {
-          id: usuariosLs[usuariosLs.length - 1]?.id + 1 || 1,
+        const res = await clientAxios.post("/usuarios/register", {
           nombreUsuario: usuario,
           emailUsuario: email,
-          contrasenia,
-          tyc: check,
-          rol: 'usuario',
-          login: false,
-          status: 'enable'
+          contrasenia
+        }, configHeaders)
+
+        if (res.status === 201) {
+          Swal.fire({
+            title: "Gracias por registrarte!",
+            text: `${res.data.msg}`,
+            icon: "success"
+          });
+
+          setTimeout(() => {
+            navigate('/login')
+          }, 1000);
         }
-
-        usuariosLs.push(nuevoUsuario)
-        localStorage.setItem('usuarios', JSON.stringify(usuariosLs))
-
-        Swal.fire({
-          title: "Registro exitoso!",
-          text: "En breve seras redirigido al inicio de tu sesion!",
-          icon: "success"
-        });
-
-        setRegistro({
-          usuario: '',
-          email: '',
-          contrasenia: '',
-          repContrasenia: '',
-          check: false
+        /* const nuevoUsuario = await axios.post("http://localhost:3001/api/usuarios/register", {
+          nombreUsuario: usuario,
+          emailUsuario: email,
+          contrasenia
+        }, {
+          "Content-Type": "application/json",
         })
 
-        setTimeout(() => {
-          navigate('/login')
-        }, 1000);
+        console.log(nuevoUsuario)
 
+        if (nuevoUsuario.status === 201) {
+          Swal.fire({
+            title: "Gracias por registrarte!",
+            text: `${nuevoUsuario.data.msg}`,
+            icon: "success"
+          });
+
+          setTimeout(() => {
+            navigate('/login')
+          }, 1000);
+        }
+
+ */
+        /*  const nuevoUsuario = await fetch("http://localhost:3001/api/usuarios/register", {
+           method: "POST",
+           headers: {
+             "Content-Type": "application/json",
+           },
+           body: JSON.stringify({
+             nombreUsuario: usuario,
+             emailUsuario: email,
+             contrasenia
+           })
+         },
+         )
+ 
+         const res = await nuevoUsuario.json()
+         console.log(res) */
+        /*  const usuariosLs = JSON.parse(localStorage.getItem('usuarios')) || []
+ 
+         const nuevoUsuario = {
+           id: usuariosLs[usuariosLs.length - 1]?.id + 1 || 1,
+           nombreUsuario: usuario,
+           emailUsuario: email,
+           contrasenia,
+           tyc: check,
+           rol: 'usuario',
+           login: false,
+           status: 'enable'
+         }
+ 
+         usuariosLs.push(nuevoUsuario)
+         localStorage.setItem('usuarios', JSON.stringify(usuariosLs))
+ 
+         Swal.fire({
+           title: "Registro exitoso!",
+           text: "En breve seras redirigido al inicio de tu sesion!",
+           icon: "success"
+         });
+ 
+         setRegistro({
+           usuario: '',
+           email: '',
+           contrasenia: '',
+           repContrasenia: '',
+           check: false
+         })
+ 
+         setTimeout(() => {
+           navigate('/login')
+         }, 1000);
+  */
       } else {
         Swal.fire({
           icon: "error",
@@ -96,39 +153,61 @@ const FormC = ({ idPage }) => {
     setInicioSesion({ ...inicioSesion, [ev.target.name]: ev.target.value })
   }
 
-  const iniciarSesionUsuario = (ev) => {
+  const iniciarSesionUsuario = async (ev) => {
     ev.preventDefault()
-    const usuariosLs = JSON.parse(localStorage.getItem('usuarios')) || []
-    const { usuario, contrasenia } = inicioSesion
 
-    const usuarioExiste = usuariosLs.find((user) => user.nombreUsuario === usuario)
+    //Crear todas las validaciones necesarias para que el formulario no se envie vacio al back
 
-    if (!usuarioExiste) {
-      Swal.fire({
-        icon: "error",
-        title: "Oops...",
-        text: "El usuario y/o contraseña son incorrectos. USUARIO!",
-      });
-    }
+    const res = await clientAxios.post("/usuarios/login", {
+      nombreUsuario: inicioSesion.usuario,
+      contrasenia: inicioSesion.contrasenia
+    }, configHeaders)
 
-    if (usuarioExiste.contrasenia === contrasenia) {
-      usuarioExiste.login = true
-      localStorage.setItem('usuarios', JSON.stringify(usuariosLs))
-      sessionStorage.setItem('usuarioLogeado', JSON.stringify(usuarioExiste))
-
-      if (usuarioExiste.rol === 'usuario') {
-        navigate('/user')
+    console.log(res)
+    if (res.status === 200) {
+      sessionStorage.setItem("token", JSON.stringify(res.data.token))
+      sessionStorage.setItem("rol", JSON.stringify(res.data.rolUsuario))
+      if (res.data.rol === "admin") {
+        navigate("/user")
       } else {
-        navigate('/admin')
+        navigate("/admin")
       }
-
-    } else {
-      Swal.fire({
-        icon: "error",
-        title: "Oops...",
-        text: "El usuario y/o contraseña son incorrectos. CONTRASEÑA!",
-      });
     }
+    /*  const usuariosLs = JSON.parse(localStorage.getItem('usuarios')) || []
+     const { usuario, contrasenia } = inicioSesion
+ 
+     const usuarioExiste = usuariosLs.find((user) => user.nombreUsuario === usuario)
+ 
+     if (!usuarioExiste) {
+       Swal.fire({
+         icon: "error",
+         title: "Oops...",
+         text: "El usuario y/o contraseña son incorrectos. USUARIO!",
+       });
+     }
+ 
+     if (usuarioExiste.contrasenia === contrasenia) {
+       const res = await clientAxios.post("/usuarios/login", {
+         nombreUsuario: usuario,
+         contrasenia
+       }, configHeaders) */
+    /*  usuarioExiste.login = true
+     localStorage.setItem('usuarios', JSON.stringify(usuariosLs))
+     sessionStorage.setItem('usuarioLogeado', JSON.stringify(usuarioExiste))
+ 
+     if (usuarioExiste.rol === 'usuario') {
+       navigate('/user')
+     } else {
+       navigate('/admin')
+     } */
+
+    /*   } else {
+        Swal.fire({
+          icon: "error",
+          title: "Oops...",
+          text: "El usuario y/o contraseña son incorrectos. CONTRASEÑA!",
+        });
+    } */
 
   }
 
