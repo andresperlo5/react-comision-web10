@@ -3,7 +3,7 @@ import { Button, Col, Container, Row } from "react-bootstrap"
 import { useNavigate, useParams } from "react-router"
 import Swal from "sweetalert2"
 import { useApiFakeStore } from "../helpers/useApi"
-import clientAxios from "../helpers/axios.config.helpers"
+import clientAxios, { configHeaders } from "../helpers/axios.config.helpers"
 
 const ProductDetail = () => {
   const navigate = useNavigate()
@@ -22,43 +22,43 @@ const ProductDetail = () => {
     setProducto(productoFiltrado) */
   }
 
-  const agregarProductoCarrito = () => {
-    const usuarioLogeado = JSON.parse(sessionStorage.getItem('token')) || null
-    console.log(usuarioLogeado)
-    /* const carritoLs = JSON.parse(localStorage.getItem('carrito')) || [] */
+  const agregarProductoCarrito = async (idProducto) => {
+    try {
+      const usuarioLogeado = JSON.parse(sessionStorage.getItem('token')) || null
 
-    if (!usuarioLogeado) {
-      Swal.fire({
-        icon: "info",
-        title: "Debes iniciar sesion para poder comprar",
-        text: "En breve seras redirigido a iniciar tu sesion",
-      });
+      if (!usuarioLogeado) {
+        Swal.fire({
+          icon: "info",
+          title: "Debes iniciar sesion para poder comprar",
+          text: "En breve seras redirigido a iniciar tu sesion",
+        });
 
-      setTimeout(() => {
-        navigate('/login')
-      }, 500);
+        setTimeout(() => {
+          navigate('/login')
+        }, 500);
+      }
+
+      const res = await clientAxios.put(`/carritos/add/${idProducto}`, {}, configHeaders)
+      console.log(res)
+
+      if (res.status === 200) {
+        Swal.fire({
+          icon: "success",
+          title: `${res.data.msg}`,
+          text: "En breve lo veras reflejado en el carrito",
+        });
+      }
+    } catch (error) {
+      if (error.status === 409) {
+        Swal.fire({
+          icon: "error",
+          title: `${error.response.data.msg}`,
+          text: "Podras modificar la cantidad solo desde la seccion del carrito",
+        });
+
+      }
     }
 
-    // const productoExisteCarrito = carritoLs.find((prod) => prod.id === Number(params.id))
-
-    /* if (productoExisteCarrito) {
-      Swal.fire({
-        icon: "info",
-        title: "El producto ya esta cargado en el carrito",
-        text: "Para modificar la cantidad debes ir al carrito",
-      });
-      return
-    }
-
-    carritoLs.push(producto)
-    localStorage.setItem('carrito', JSON.stringify(carritoLs))
-    Swal.fire({
-      icon: "success",
-      title: "El producto se cargo al carrito con exito",
-      text: "Podes modificar la cantidad desde el carrito",
-    });
-
- */
   }
 
   const comprarProductoMP = () => {
@@ -94,7 +94,7 @@ const ProductDetail = () => {
             <p>${producto.precio}</p>
             <p>{producto.descripcion}</p>
 
-            <Button className="mx-3" variant="warning" onClick={agregarProductoCarrito}>Agregar Carrito</Button>
+            <Button className="mx-3" variant="warning" onClick={() => agregarProductoCarrito(producto._id)}>Agregar Carrito</Button>
             <Button variant="success" onClick={comprarProductoMP}>Comprar</Button>
           </Col>
         </Row>

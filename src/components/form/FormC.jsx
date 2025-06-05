@@ -4,7 +4,7 @@ import Form from 'react-bootstrap/Form';
 import './FormC.css'
 import { useState } from 'react';
 import Swal from 'sweetalert2';
-import { useNavigate } from 'react-router';
+import { Link, useNavigate } from 'react-router';
 import axios from 'axios';
 import clientAxios, { configHeaders } from '../../helpers/axios.config.helpers';
 
@@ -279,9 +279,12 @@ const FormC = ({ idPage }) => {
             </Form.Group>
           </>
         }
-        <Button variant="primary" type="submit" onClick={idPage === 'register' ? registroUsuario : iniciarSesionUsuario}>
-          {idPage === 'register' ? 'Enviar Datos' : 'Ingresar'}
-        </Button>
+        <p>Si olvidaste tu contraseña. <Link to={"/recoveryPass"}> Haz click aqui </Link></p>
+        <Container className='text-center'>
+          <Button className="py-3 px-5" variant="primary" type="submit" onClick={idPage === 'register' ? registroUsuario : iniciarSesionUsuario}>
+            {idPage === 'register' ? 'Enviar Datos' : 'Ingresar'}
+          </Button>
+        </Container>
       </Form>
     </Container>
   )

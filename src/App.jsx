@@ -16,6 +16,7 @@ import AdminCreateUpdateProduct from './pages/AdminCreateUpdateProduct'
 import UserCartPage from './pages/UserCartPage'
 import PrivateRoute from './components/privateroute/PrivateRoute'
 import './App.css'
+import RecoveryPassPage from './pages/RecoveryPassPage'
 
 //fragments <> </>
 const App = () => {
@@ -56,6 +57,7 @@ const App = () => {
 
           } />
 
+          <Route path='/recoveryPass' element={<RecoveryPassPage />} />
           <Route path='/productDetail/:id' element={<ProductDetail />} />
           <Route path='/register' element={<RegisterPage />} />
           <Route path='/contact' element={<ContactPage />} />
