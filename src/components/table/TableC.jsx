@@ -127,7 +127,7 @@ const TableC = ({ array, idPage, funcionReseteador }) => {
                 <td className='w-25'>{element.descripcion}</td>
                 <td className='text-center'>${element.precio}</td>
                 <td>
-                  <img src={element.imagen.includes("public") ? `http://localhost:3001/${element.imagen}` : element.imagen} alt={element.description} width={50} />
+                  <img src={element.imagen.includes("public") ? `${import.meta.env.VITE_URL_BACK_LOCA}/${element.imagen}` : element.imagen} alt={element.description} width={50} />
                 </td>
                 <td>
                   <Button variant='danger' onClick={() => borrarProducto(element.id)}>Eliminar</Button>

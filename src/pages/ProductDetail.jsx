@@ -78,7 +78,7 @@ const ProductDetail = () => {
       <Container className="my-5">
         <Row>
           <Col sm='12' md='6' className="col-img-detalle-producto text-center">
-            <img src={producto.imagen?.includes("public") ? `http://localhost:3001/${producto.imagen}` : producto.imagen} alt={producto.description} />
+            <img src={producto.imagen?.includes("public") ? `${import.meta.env.VITE_URL_BACK_LOCA}/${producto.imagen}` : producto.imagen} alt={producto.description} />
           </Col>
           <Col sm='12' md='6'>
             <h2>{producto.nombre}</h2>
