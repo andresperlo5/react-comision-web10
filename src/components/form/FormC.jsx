@@ -32,7 +32,6 @@ const FormC = ({ idPage }) => {
 
   const registroUsuario = async (ev) => {
     ev.preventDefault()
-    console.log(registro)
     const { usuario, email, contrasenia, repContrasenia, check } = registro
     let nuevoError = {}
 
@@ -85,7 +84,6 @@ const FormC = ({ idPage }) => {
       contrasenia: inicioSesion.contrasenia
     }, configHeaders)
 
-    console.log(res)
     if (res.status === 200) {
       sessionStorage.setItem("token", JSON.stringify(res.data.token))
       sessionStorage.setItem("rol", JSON.stringify(res.data.rolUsuario))

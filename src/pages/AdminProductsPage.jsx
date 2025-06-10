@@ -11,7 +11,6 @@ const AdminProductsPage = () => {
 
   const obtenerProductos = async () => {
     const res = await clientAxios.get("/productos")
-    console.log(res)
     setProductos(res.data.productos)
   }
 

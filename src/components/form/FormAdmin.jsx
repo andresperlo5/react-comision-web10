@@ -43,7 +43,6 @@ const FormAdmin = () => {
       }, configHeaders)
 
       if (res.status === 201) {
-        console.log({ res })
         const formData = new FormData()
         formData.append("imagen", formProduct.image)
 

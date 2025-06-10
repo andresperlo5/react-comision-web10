@@ -14,7 +14,6 @@ const HomePage = () => {
     try {
 
       const res = await clientAxios.get("/productos")
-      console.log(res)
       setProductos(res.data.productos)
 
     } catch (error) {

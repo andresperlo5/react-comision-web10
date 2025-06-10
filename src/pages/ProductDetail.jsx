@@ -11,10 +11,9 @@ const ProductDetail = () => {
 
   const buscarProducto = async () => {
     const res = await clientAxios.get(`/productos/${params.id}`)
-    console.log(res.data)
     setProducto(res.data.producto)
   }
-  
+
   const agregarProductoCarrito = async (idProducto) => {
     try {
       const usuarioLogeado = JSON.parse(sessionStorage.getItem('token')) || null
@@ -32,7 +31,6 @@ const ProductDetail = () => {
       }
 
       const res = await clientAxios.put(`/carritos/add/${idProducto}`, {}, configHeaders)
-      console.log(res)
 
       if (res.status === 200) {
         Swal.fire({

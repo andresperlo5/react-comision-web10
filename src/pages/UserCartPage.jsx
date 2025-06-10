@@ -14,7 +14,6 @@ const UserCartPage = () => {
 
   const obtenerProductos = async () => {
     const res = await clientAxios.get("/carritos", configHeaders)
-    console.log(res)
     setProductos(res.data)
   }
 
@@ -36,7 +35,6 @@ const UserCartPage = () => {
         if (result.isConfirmed) {
 
           const res = await clientAxios.put(`/carritos/deleteProduct/${idProducto}`, {}, configHeaders)
-          console.log(res)
           if (res.status === 200) {
             Swal.fire({
               title: "Producto eliminado con exito del carrito!",
@@ -60,12 +58,7 @@ const UserCartPage = () => {
     initMercadoPago(`${import.meta.env.VITE_MP_PUBLIC_KEY}`);
 
     const res = await clientAxios.post("/servicios/pagoConMercadoPago", {}, configHeaders)
-    console.log(res)
     setIdPrefenrecia(res.data.urlRes)
-    /* location.href = `${res.data.urlRes}` */
-
-
-
     Swal.fire({
       title: "Gracias por tu compra!",
       text: "Te enviaremos por mail el comprobante de tu compra",

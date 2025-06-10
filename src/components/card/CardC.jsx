@@ -3,7 +3,6 @@ import { Link } from 'react-router'
 import './CardC.css'
 
 const CardC = ({ urlImage, alt, titulo, descripcion, idProducto, precio }) => {
-  console.log(urlImage)
   /*   const { urlImage, alt } = props */
   return (
     <>

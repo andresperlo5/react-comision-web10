@@ -76,7 +76,6 @@ const TableC = ({ array, idPage, funcionReseteador }) => {
       if (result.isConfirmed) {
 
         producto.status = producto.status === 'enable' ? 'disabled' : 'enable'
-        console.log(producto)
         localStorage.setItem('productos', JSON.stringify(array))
 
         funcionReseteador()
