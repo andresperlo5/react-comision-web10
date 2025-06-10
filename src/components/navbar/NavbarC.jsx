@@ -9,10 +9,6 @@ const NavbarC = () => {
   const navigate = useNavigate()
 
   const logoutUser = () => {
-    /*  const usuariosLs = JSON.parse(localStorage.getItem('usuarios')) || []
-     const usuario = usuariosLs.find((user) => user.id === usuarioLog.id)
-     usuario.login = false
-     localStorage.setItem('usuarios', JSON.stringify(usuariosLs)) */
     sessionStorage.removeItem('token')
     sessionStorage.removeItem('rol')
 

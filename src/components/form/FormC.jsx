@@ -9,12 +9,6 @@ import axios from 'axios';
 import clientAxios, { configHeaders } from '../../helpers/axios.config.helpers';
 
 const FormC = ({ idPage }) => {
-
-  /*  const [usuario, setUsuario] = useState('')
-   const [emailUsuario, setEmailUsuario] = useState('')
-   const [contrasenia, setContrasenia] = useState('')
-   const [repContrasenia, setRepContrasenia] = useState('')
-   const [check, setCheck] = useState(false) */
   const navigate = useNavigate()
   const [errores, setErrores] = useState({})
 
@@ -66,78 +60,6 @@ const FormC = ({ idPage }) => {
             navigate('/login')
           }, 1000);
         }
-        /* const nuevoUsuario = await axios.post("http://localhost:3001/api/usuarios/register", {
-          nombreUsuario: usuario,
-          emailUsuario: email,
-          contrasenia
-        }, {
-          "Content-Type": "application/json",
-        })
-
-        console.log(nuevoUsuario)
-
-        if (nuevoUsuario.status === 201) {
-          Swal.fire({
-            title: "Gracias por registrarte!",
-            text: `${nuevoUsuario.data.msg}`,
-            icon: "success"
-          });
-
-          setTimeout(() => {
-            navigate('/login')
-          }, 1000);
-        }
-
- */
-        /*  const nuevoUsuario = await fetch("http://localhost:3001/api/usuarios/register", {
-           method: "POST",
-           headers: {
-             "Content-Type": "application/json",
-           },
-           body: JSON.stringify({
-             nombreUsuario: usuario,
-             emailUsuario: email,
-             contrasenia
-           })
-         },
-         )
- 
-         const res = await nuevoUsuario.json()
-         console.log(res) */
-        /*  const usuariosLs = JSON.parse(localStorage.getItem('usuarios')) || []
- 
-         const nuevoUsuario = {
-           id: usuariosLs[usuariosLs.length - 1]?.id + 1 || 1,
-           nombreUsuario: usuario,
-           emailUsuario: email,
-           contrasenia,
-           tyc: check,
-           rol: 'usuario',
-           login: false,
-           status: 'enable'
-         }
- 
-         usuariosLs.push(nuevoUsuario)
-         localStorage.setItem('usuarios', JSON.stringify(usuariosLs))
- 
-         Swal.fire({
-           title: "Registro exitoso!",
-           text: "En breve seras redirigido al inicio de tu sesion!",
-           icon: "success"
-         });
- 
-         setRegistro({
-           usuario: '',
-           email: '',
-           contrasenia: '',
-           repContrasenia: '',
-           check: false
-         })
- 
-         setTimeout(() => {
-           navigate('/login')
-         }, 1000);
-  */
       } else {
         Swal.fire({
           icon: "error",
@@ -173,41 +95,8 @@ const FormC = ({ idPage }) => {
         navigate("/admin")
       }
     }
-    /*  const usuariosLs = JSON.parse(localStorage.getItem('usuarios')) || []
-     const { usuario, contrasenia } = inicioSesion
- 
-     const usuarioExiste = usuariosLs.find((user) => user.nombreUsuario === usuario)
- 
-     if (!usuarioExiste) {
-       Swal.fire({
-         icon: "error",
-         title: "Oops...",
-         text: "El usuario y/o contraseña son incorrectos. USUARIO!",
-       });
-     }
- 
-     if (usuarioExiste.contrasenia === contrasenia) {
-       const res = await clientAxios.post("/usuarios/login", {
-         nombreUsuario: usuario,
-         contrasenia
-       }, configHeaders) */
-    /*  usuarioExiste.login = true
-     localStorage.setItem('usuarios', JSON.stringify(usuariosLs))
-     sessionStorage.setItem('usuarioLogeado', JSON.stringify(usuarioExiste))
- 
-     if (usuarioExiste.rol === 'usuario') {
-       navigate('/user')
-     } else {
-       navigate('/admin')
-     } */
 
-    /*   } else {
-        Swal.fire({
-          icon: "error",
-          title: "Oops...",
-          text: "El usuario y/o contraseña son incorrectos. CONTRASEÑA!",
-        });
-    } */
+
 
   }
 

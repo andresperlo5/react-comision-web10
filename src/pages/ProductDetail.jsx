@@ -2,26 +2,19 @@ import { useEffect, useState } from "react"
 import { Button, Col, Container, Row } from "react-bootstrap"
 import { useNavigate, useParams } from "react-router"
 import Swal from "sweetalert2"
-import { useApiFakeStore } from "../helpers/useApi"
 import clientAxios, { configHeaders } from "../helpers/axios.config.helpers"
 
 const ProductDetail = () => {
   const navigate = useNavigate()
   const params = useParams()
   const [producto, setProducto] = useState({})
-  const productosLs = JSON.parse(localStorage.getItem('productos')) || []
 
   const buscarProducto = async () => {
-    /* const data = await useApiFakeStore(params.id) */
-
     const res = await clientAxios.get(`/productos/${params.id}`)
     console.log(res.data)
     setProducto(res.data.producto)
-
-    /* const productoFiltrado = productosLs.find((producto) => producto.id === Number(params.id))
-    setProducto(productoFiltrado) */
   }
-
+  
   const agregarProductoCarrito = async (idProducto) => {
     try {
       const usuarioLogeado = JSON.parse(sessionStorage.getItem('token')) || null

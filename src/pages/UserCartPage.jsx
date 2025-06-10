@@ -16,8 +16,6 @@ const UserCartPage = () => {
     const res = await clientAxios.get("/carritos", configHeaders)
     console.log(res)
     setProductos(res.data)
-    /* const productosLs = JSON.parse(localStorage.getItem('carrito')) || []
-    setProductos(productosLs) */
   }
 
   const handleChangeQuantity = (ev) => {

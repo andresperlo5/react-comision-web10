@@ -13,8 +13,6 @@ const AdminProductsPage = () => {
     const res = await clientAxios.get("/productos")
     console.log(res)
     setProductos(res.data.productos)
-    /* const productosLs = JSON.parse(localStorage.getItem('productos'))
-    setProductos(productosLs) */
   }
 
   useEffect(() => {

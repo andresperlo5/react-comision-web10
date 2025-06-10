@@ -11,8 +11,6 @@ const AdminUsersPage = () => {
   const obtenerUsuarios = async () => {
     const res = await clientAxios.get("/usuarios")
     setUsuarios(res.data.usuarios)
-    /* const usuariosLs = JSON.parse(localStorage.getItem('usuarios'))
-    setUsuarios(usuariosLs) */
   }
 
   useEffect(() => {
